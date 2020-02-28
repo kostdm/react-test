@@ -11,7 +11,6 @@ export default class{
 
     @observable products = [];
     
-
     @observable process = [];
 
     @action addToProcess(id) {
@@ -69,10 +68,10 @@ export default class{
     }
 
     @action change(id, cnt){
-        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
+            this.addToProcess(id);
             this.api.change(this.token, id, cnt).then((res) => {
                 if(res){
                     this.products[index].cnt = cnt;
@@ -83,10 +82,10 @@ export default class{
     }
 
     @action remove(id){
-        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
+            this.addToProcess(id);
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
