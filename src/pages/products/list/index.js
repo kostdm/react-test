@@ -13,15 +13,19 @@ class Products extends React.Component{
         let productsCards = productModel.items.map((product) => {  
             let btn;
 
-            if(cart.inCart(product.id)){
+            if( cart.inCart(product.id) ) {
                 btn = <Button variant="danger" onClick={() => cart.remove(product.id)}>
                     Remove from cart
                 </Button>
             }
-            else{
+            else {
                 btn = <Button variant="success" onClick={() => cart.add(product.id)}>
                     Add to cart
                 </Button>
+            }
+
+            if ( cart.inProcess(product.id) ) {
+                btn = <Button variant="warning" disabled>Loading...</Button>;
             }
 
             return <div className={'col col-4 ' + styles.col} key={product.id}>
