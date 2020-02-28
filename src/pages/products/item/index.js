@@ -23,6 +23,7 @@ class Product extends React.Component{
                         price={product.price} 
                         backUrl={routesMap.home} 
                         linkComponent={Link}
+                        inProcess={cart.inProcess(product.id)}
                         inCart={cart.inCart(product.id)}
                         onAdd={() => cart.add(product.id)}
                         onRemove={() => cart.remove(product.id)}
