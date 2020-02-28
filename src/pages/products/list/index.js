@@ -13,21 +13,21 @@ class Products extends React.Component{
         let productsCards = productModel.items.map((product) => {  
             let btn;
 
-            if( cart.inCart(product.id) ) {
-                btn = <Button variant="danger" onClick={() => cart.remove(product.id)}>
-                    Remove from cart
-                </Button>
-            }
-            else {
-                btn = <Button variant="success" onClick={() => cart.add(product.id)}>
-                    Add to cart
-                </Button>
-            }
-
             if ( cart.inProcess(product.id) ) {
                 btn = <Button variant="warning" disabled>Loading...</Button>;
+            } else {
+                if( cart.inCart(product.id) ) {
+                    btn = <Button variant="danger" onClick={() => cart.remove(product.id)}>
+                        Remove from cart
+                    </Button>
+                }
+                else {
+                    btn = <Button variant="success" onClick={() => cart.add(product.id)}>
+                        Add to cart
+                    </Button>
+                }
             }
-
+            
             return <div className={'col col-4 ' + styles.col} key={product.id}>
                 <Card>
                     <Card.Body>
@@ -48,6 +48,7 @@ class Products extends React.Component{
         return (
             <div>
                 <h1>Products page</h1>
+                <button onClick={() => console.log(cart.process)}>test</button>
                 <div className="row">
                     {productsCards}
                 </div>
