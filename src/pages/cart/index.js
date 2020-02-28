@@ -11,13 +11,15 @@ class Cart extends React.Component{
     render(){
         let cartModel = this.props.stores.cart;
 
-        let productsRows = cartModel.productsDetailed.map((product, i) => {
+        let productsRows = cartModel.productsDetailed.map((product) => {
+            let disable = cartModel.inProcess(product.id);
             return (
                 <tr key={product.id}>
                     <td>{product.title}</td>
                     <td>{product.price}</td>
                     <td>
                         <AppMinMax 
+                            disable={disable}
                             min={1} 
                             max={product.rest} 
                             cnt={product.cnt} 
