@@ -1,6 +1,10 @@
 import {observable, computed, action} from 'mobx';
 
 export default class{
+    constructor(rootStore){
+        this.rootStore = rootStore;
+    }
+
     @observable formData = {
         name: {
             value: '',
@@ -26,10 +30,6 @@ export default class{
     }
 
     lastOrderCache = {}
-
-    constructor(rootStore){
-        this.rootStore = rootStore;
-    }
 
     @computed get formValid(){
         return Object.values(this.formData).every(field => field.valid);
@@ -58,8 +58,12 @@ export default class{
         field.valid = field.validator(field.value);
     }
 
-    addOrder(cart, userData){
-        this.lastOrderCache['cart'] = JSON.parse(JSON.stringify(cart));
-        this.lastOrderCache['user'] = JSON.parse(JSON.stringify(userData));
+    addOrder(){
+        return new Promise((resolve, reject) => {
+            this.lastOrderCache['cart'] = JSON.parse(JSON.stringify(this.rootStore.cart.productsDetailed));
+            this.lastOrderCache['total'] = this.rootStore.cart.total;
+            this.lastOrderCache['user'] = JSON.parse(JSON.stringify(this.data));
+            resolve();
+        });
     }
 }
