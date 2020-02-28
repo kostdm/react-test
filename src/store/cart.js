@@ -89,6 +89,7 @@ export default class{
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
+                    this.load(); // фикс без него - рассинхрон
                 }
                 this.removeFromProcess(id);
             });
