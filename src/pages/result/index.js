@@ -9,13 +9,12 @@ class Result extends React.Component{
     
     render(){
         let order = this.props.stores.order.lastOrderCache;
-        let total = order.cart.reduce((t, pr) => t = t + (pr.price * pr.cnt), 0);
         console.log(order);
         return (
             <div>
                 <h2>Congratulations!</h2>
                 <p>Hi, {order.user.name}!</p>
-                <p><strong>Total: {total}</strong></p>
+                <p><strong>Total: {order.total}</strong></p>
                 <div>
                     <Link to={routesMap.home}>Go to home</Link>
                 </div>
