@@ -48,7 +48,10 @@ class Products extends React.Component{
         return (
             <div>
                 <h1>Products page</h1>
-                <button onClick={() => console.log(cart.process)}>test</button>
+                <button onClick={() => {
+                    console.log(cart.products);
+                    console.log(cart.process);
+                }}>test</button>
                 <div className="row">
                     {productsCards}
                 </div>
