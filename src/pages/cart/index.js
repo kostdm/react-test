@@ -38,7 +38,7 @@ class Cart extends React.Component{
 
         return (
             <div>
-                <h2>Cart</h2>
+                <h2>Cart</h2>                
                 <table className="table table-bordered">
                     <thead>
                         <tr>
