@@ -62,8 +62,8 @@ export default class{
         this.api.add(this.token, id).then((res) => {
             if(res){
                 this.products.push({id, cnt: 1});
-                this.removeFromProcess(id);
             }
+            this.removeFromProcess(id);
         });
     }
 
@@ -75,8 +75,8 @@ export default class{
             this.api.change(this.token, id, cnt).then((res) => {
                 if(res){
                     this.products[index].cnt = cnt;
-                    this.removeFromProcess(id);
                 }
+                this.removeFromProcess(id);
             });
         }
     }
@@ -89,8 +89,8 @@ export default class{
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
-                    this.removeFromProcess(id);
                 }
+                this.removeFromProcess(id);
             });
         }
     }
