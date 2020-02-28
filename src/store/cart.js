@@ -2,14 +2,27 @@ import {observable, computed, action} from 'mobx';
 
 
 export default class{
-    @observable products = [];
-    @observable inProcess = [];
-
     constructor(rootStore){
         this.rootStore = rootStore;
         this.api = this.rootStore.api.cart;
         this.storage = this.rootStore.storage;
         this.token = this.storage.getItem('cartToken');
+    }
+
+    @observable products = [];
+    
+    @observable inProcess = [];
+    
+    @action addToProcess(id) {
+        this.inProcess.push(id);
+    }
+
+    @action removeFromProcess(id) {
+        this.inProcess = this.inProcess.filter(item => item !== id);
+    }
+
+    @computed get inProcess() {
+        return (id) => this.inProcess.some(item => item === id);
     }
 
     @computed get productsDetailed(){
@@ -45,33 +58,42 @@ export default class{
     }
 
     @action add(id){
-        this.inProcess.push(id);
+        this.addToProcess(id);
         this.api.add(this.token, id).then((res) => {
             if(res){
                 this.products.push({id, cnt: 1});
+                this.removeFromProcess(id);
             }
         });
     }
 
+    @action addToProcess(id) {
+
+    }
+
     @action change(id, cnt){
+        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
             this.api.change(this.token, id, cnt).then((res) => {
                 if(res){
                     this.products[index].cnt = cnt;
+                    this.removeFromProcess(id);
                 }
             });
         }
     }
 
     @action remove(id){
+        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
+                    this.removeFromProcess(id);
                 }
             });
         }
