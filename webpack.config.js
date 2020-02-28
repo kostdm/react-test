@@ -78,7 +78,7 @@ let conf = {
         overlay: true,
         proxy: {
             '/reactcourseapi/**': {
-                target: 'http://localhost',
+                target: 'http://192.168.1.191',
                 secure: false,
                 changeOrigin: true
             }
