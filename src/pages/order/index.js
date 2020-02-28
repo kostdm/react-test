@@ -23,13 +23,14 @@ class Order extends React.Component{
     confirm = () => {
         let order = this.props.stores.order;
         let cart = this.props.stores.cart;
-
-        order.addOrder(cart.productsDetailed, order.data);
-
-        cart.clean();
         
-        this.hide();
-        this.props.history.push(routesMap.result);
+        order.addOrder()
+            .then(()=>{
+                return cart.clean();
+            }).then(()=>{
+                this.hide();
+                this.props.history.push(routesMap.result);
+            });
     }
 
     render(){
