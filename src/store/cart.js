@@ -59,9 +59,11 @@ export default class{
     }
 
     @action add(id){
+        this.addToProcess(id);
         this.api.add(this.token, id).then((res) => {
             if(res){
                 this.products.push({id, cnt: 1});
+                this.removeFromProcess(id);
             }
         });
     }
@@ -81,12 +83,14 @@ export default class{
     }
 
     @action remove(id){
+        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
+                    this.removeFromProcess(id);
                 }
             });
         }
