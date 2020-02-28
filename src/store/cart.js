@@ -11,18 +11,19 @@ export default class{
 
     @observable products = [];
     
-    @observable inProcess = [];
-    
+
+    @observable process = [];
+
     @action addToProcess(id) {
-        this.inProcess.push(id);
+        this.process.push(id);
     }
 
     @action removeFromProcess(id) {
-        this.inProcess = this.inProcess.filter(item => item !== id);
+        this.process = this.process.filter(val => val !== id);
     }
 
     @computed get inProcess() {
-        return (id) => this.inProcess.some(item => item === id);
+        return (id) => this.process.some(item => item === id);
     }
 
     @computed get productsDetailed(){
@@ -58,17 +59,11 @@ export default class{
     }
 
     @action add(id){
-        this.addToProcess(id);
         this.api.add(this.token, id).then((res) => {
             if(res){
                 this.products.push({id, cnt: 1});
-                this.removeFromProcess(id);
             }
         });
-    }
-
-    @action addToProcess(id) {
-
     }
 
     @action change(id, cnt){
@@ -86,14 +81,12 @@ export default class{
     }
 
     @action remove(id){
-        this.addToProcess(id);
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
             this.api.remove(this.token, id).then((res) => {
                 if(res){
                     this.products.splice(index, 1);
-                    this.removeFromProcess(id);
                 }
             });
         }
