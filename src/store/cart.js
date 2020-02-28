@@ -97,10 +97,15 @@ export default class{
     }
 
     @action clean(){
-        this.api.clean(this.token).then((res) => {
-            if(res){
-                this.products = [];
-            }
+        return new Promise((accept, reject) => {
+            this.api.clean(this.token).then((res) => {
+                if(res){
+                    this.products = [];
+                    accept();
+                } else {
+                    reject('delete error');
+                }
+            });
         });
     }
 }
