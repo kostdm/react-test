@@ -109,7 +109,8 @@ export default class{
 
     @action clean(){
         return new Promise((accept, reject) => {
-            this.api.clean(this.token).then((res) => {
+            this.api.clean(this.token)
+            .then((res) => {
                 if(res){
                     this.products = [];
                     accept();
