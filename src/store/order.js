@@ -29,7 +29,7 @@ export default class{
         }
     }
 
-    lastOrderCache = {}
+    @observable lastOrderCache = {}
 
     @computed get formValid(){
         return Object.values(this.formData).every(field => field.valid);
@@ -58,12 +58,22 @@ export default class{
         field.valid = field.validator(field.value);
     }
 
-    addOrder(){
+    @action saveOrder(){
         return new Promise((resolve, reject) => {
-            this.lastOrderCache['cart'] = JSON.parse(JSON.stringify(this.rootStore.cart.productsDetailed));
-            this.lastOrderCache['total'] = this.rootStore.cart.total;
-            this.lastOrderCache['user'] = JSON.parse(JSON.stringify(this.data));
-            resolve();
+            this.lastOrderCache.cart = JSON.parse(JSON.stringify(this.rootStore.cart.productsDetailed));
+            this.lastOrderCache.total = this.rootStore.cart.total;
+            this.lastOrderCache.user = {};
+
+            for (let key in this.formData) {
+                this.lastOrderCache.user[key] = this.formData[key].value;
+                this.formData[key].value = '';
+                this.formData[key].valid = null;
+            }
+
+            this.rootStore.cart.clean()
+            .then(() => {
+                resolve();
+            });
         });
     }
 }
