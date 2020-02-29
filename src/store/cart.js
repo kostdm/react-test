@@ -11,18 +11,14 @@ export default class{
 
     @observable products = [];
     
-    @observable process = [];
+    @observable process = {};
 
     @action addToProcess(id) {
-        this.process.push(id);
+        this.process[id] = true; 
     }
 
     @action removeFromProcess(id) {
-        this.process = this.process.filter(val => val !== id);
-    }
-
-    @computed get inProcess() {
-        return (id) => this.process.some(item => item === id);
+        delete this.process[id];
     }
 
     @computed get productsDetailed(){
