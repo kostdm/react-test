@@ -13,7 +13,7 @@ class Products extends React.Component{
         let productsCards = productModel.items.map((product) => {  
             let btn;
 
-            if ( cart.inProcess(product.id) ) {
+            if ( product.id in cart.process ) {
                 btn = <Button variant="warning" disabled>Loading...</Button>;
             } else {
                 if( cart.inCart(product.id) ) {
