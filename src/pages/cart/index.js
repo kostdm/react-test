@@ -27,9 +27,10 @@ class Cart extends React.Component{
                     </td>
                     <td>{product.price * product.cnt}</td>
                     <td>
-                        <button onClick={() => cartModel.remove(product.id)}>
-                            X
-                        </button>
+                        <button
+                            onClick={() => cartModel.remove(product.id)}
+                            disabled={product.id in cartModel.process}
+                        >X</button>
                     </td>
                 </tr>
             );
