@@ -54,41 +54,56 @@ export default class{
     }
 
     @action add(id){
-        this.addToProcess(id);
-        this.api.add(this.token, id).then((res) => {
-            if(res){
-                this.products.push({id, cnt: 1});
-            }
-            this.removeFromProcess(id);
-        });
-    }
-
-    @action change(id, cnt){
-        let index = this.products.findIndex((pr) => pr.id === id);
-
-        if(index !== -1){
+        if (!(this.inCart(id) || id in this.process)) {
             this.addToProcess(id);
-            this.api.change(this.token, id, cnt).then((res) => {
+            this.api.add(this.token, id)
+            .then((res) => {
                 if(res){
-                    this.products[index].cnt = cnt;
+                    this.products.push({id, cnt: 1});
                 }
+            })
+            .finally(() => {
                 this.removeFromProcess(id);
             });
         }
     }
 
-    @action remove(id){
-        let index = this.products.findIndex((pr) => pr.id === id);
+    @action change(id, cnt){
+        if (this.inCart(id) || !(id in this.process) ) {
+            let index = this.products.findIndex((pr) => pr.id === id);
 
-        if(index !== -1){
-            this.addToProcess(id);
-            this.api.remove(this.token, id).then((res) => {
-                if(res){
-                    this.products.splice(index, 1);
-                    this.load(); // фикс без него - рассинхрон
-                }
-                this.removeFromProcess(id);
-            });
+            if(index !== -1){
+                this.addToProcess(id);
+                this.api.change(this.token, id, cnt)
+                .then((res) => {
+                    if(res){
+                        this.products[index].cnt = cnt;
+                    }
+                })
+                .finally(() => {
+                    this.removeFromProcess(id);
+                });
+            }
+        }
+    }
+
+    @action remove(id){
+        if (this.inCart(id) || !(id in this.process) ) {
+            let index = this.products.findIndex((pr) => pr.id === id);
+
+            if(index !== -1){
+                this.addToProcess(id);
+                this.api.remove(this.token, id)
+                .then((res) => {
+                    if(res){
+                        this.products.splice(index, 1);
+                        this.load(); // фикс без него - рассинхрон
+                    }
+                })
+                .finally(() => {
+                    this.removeFromProcess(id);
+                });
+            }
         }
     }
 
