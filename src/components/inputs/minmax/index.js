@@ -6,14 +6,14 @@ import styles from './minmax.module.css';
 export default class extends React.PureComponent{
     static defaultProps = {
         onChange: function(cnt){},
-        disable: false
+        disabled: false
     }
 
     static propTypes = {
         min: PropTypes.number.isRequired,
         max: PropTypes.number.isRequired,
         cnt: PropTypes.number.isRequired,
-        disable: PropTypes.bool,
+        disabled: PropTypes.bool,
         onChange: PropTypes.func
     }
 
@@ -45,18 +45,24 @@ export default class extends React.PureComponent{
     render(){
         return (
             <div>
-                <button onClick={this.decrease}>-</button>
+                <button
+                    onClick={this.decrease}
+                    disabled={this.props.disabled || this.props.cnt <= this.props.min}
+                >-</button>
                 <AppLazyInput
                     nativeProps={{
                         type: 'text',
                         className: styles.input,
-                        disabled: this.props.disable
+                        disabled: this.props.disabled
                     }}
                     value={this.props.cnt}
                     onChange={this.onChange}
                     ref={this.lazyInput}
                 />
-                <button onClick={this.increase}>+</button>
+                <button
+                    onClick={this.increase}
+                    disabled={this.props.disabled || this.props.cnt >= this.props.max}
+                >+</button>
             </div>
         );
     }
