@@ -3,6 +3,7 @@ import styles from './app.module.css';
 import withStore from '~/hocs/withStore';
 import {BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom';
 import routes, { routesMap } from '~/routes';
+import Notify from '~p/notify';
 
 class App extends React.Component{
     render(){
@@ -18,6 +19,7 @@ class App extends React.Component{
 
         return (
         <Router>
+            <Notify/>
             <header>
                 <div className="container">
                     <hr/>
