@@ -52,9 +52,6 @@ class Products extends React.Component{
                     console.log(cart.products);
                     console.log(cart.process);
                 }}>test</button> */}
-                <button onClick={() => {
-                    this.props.stores.notify.add('Test message!!!');
-                }}>test notify</button>
                 <div className="row">
                     {productsCards}
                 </div>
