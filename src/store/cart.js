@@ -60,6 +60,7 @@ export default class{
             .then((res) => {
                 if(res){
                     this.products.push({id, cnt: 1});
+                    this.rootStore.notify.add('Товар добавлен в корзину', 'success', 2000);
                 }
             })
             .finally(() => {
@@ -97,6 +98,7 @@ export default class{
                 .then((res) => {
                     if(res){
                         this.products.splice(index, 1);
+                        this.rootStore.notify.add('Товар удален из корзины', 'warning', 2000);
                         this.load(); // фикс без него - рассинхрон
                     }
                 })
