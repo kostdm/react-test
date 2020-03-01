@@ -18,13 +18,16 @@ class Notify extends React.Component{
                 case 'warning':
                     style = styles.warning;
                     break;
+                case 'success':
+                    style = styles.success;
+                    break;
                 default:
                     style = styles.default;
             }
 
             messagesList.push(
-                <div className={styles.message + style} key={id}>
-                    {id} - {item.text}
+                <div className={styles.message + ' ' + style} key={id}>
+                    {item.text}
                 </div>
             );
         }
